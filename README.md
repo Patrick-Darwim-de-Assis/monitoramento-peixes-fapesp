@@ -17,6 +17,8 @@ O banco de dados está ativo e hospedado em um cluster na nuvem através do **Ai
 
 ## 📊 Estrutura das Tabelas
 
+![Diagrama do Banco de Dados](Dados%20Captura%20de%20Peixes.png)
+
 O modelo foi normalizado para garantir a integridade referencial através de Chaves Estrangeiras (com restrição `ON DELETE RESTRICT`), estruturando-se em:
 
 1. **`peixes`**: Dados taxonômicos e status de conservação (ex: vulnerável).
