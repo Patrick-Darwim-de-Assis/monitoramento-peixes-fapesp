@@ -2,6 +2,10 @@
 
 Este repositório apresenta a modelagem física, persistência e consulta de dados para o monitoramento de peixes e variáveis ambientais, utilizando um banco de dados relacional hospedado na nuvem.
 
+## 🏅 Certificações
+
+* **SQL e Bancos de Dados Relacionais** – IBM / Cognitive Class [[Ver Certificado](https://courses.cognitiveclass.ai/certificates/3e04385a3e29444d80293191d9205107)]
+
 ## 🚀 Como testar e consultar este banco do seu computador
 
 O banco de dados está ativo e hospedado em um cluster na nuvem através do **Aiven.io**. Você pode se conectar a ele diretamente utilizando qualquer client SQL (como DBeaver ou MySQL Workbench) usando as credenciais abaixo:
