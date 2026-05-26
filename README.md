@@ -15,7 +15,7 @@ O banco de dados está ativo e hospedado em um cluster na nuvem através do **Ai
 * **Port (Porta):** 26590
 * **Database (Banco de dados):** defaultdb
 * **Username (Usuário):** avnadmin
-* **Password (Senha):** AVNS_JrhdDoABd7ttlyV6oiA
+* **Password (Senha):** [place password here]
 
 ---
 
