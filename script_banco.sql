@@ -1,58 +1,47 @@
-/*-- Tabela Pai 1: Peixes*/
+-- 1. Tabela de Espécies de Peixes
 CREATE TABLE peixes (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    nome_popular VARCHAR(50) NOT NULL,
     nome_cientifico VARCHAR(100) NOT NULL,
-    status_extincao VARCHAR(30) NOT NULL
-) ENGINE=InnoDB;
+    nome_popular VARCHAR(50),
+    status_extincao VARCHAR(30) DEFAULT 'Pouco Preocupante'
+);
 
-/*-- Tabela Pai 2: Pontos de Amostragem (Localidades)*/
+-- 2. Tabela de Pontos Geográficos de Amostragem (Mudanças Climáticas)
 CREATE TABLE pontos_amostragem (
     id INT AUTO_INCREMENT PRIMARY KEY,
     localidade VARCHAR(100) NOT NULL,
-    latitude DECIMAL(9,6),
-    longitude DECIMAL(9,6)
-) ENGINE=InnoDB;
+    bacia_hidrografica VARCHAR(100),
+    latitude DECIMAL(9,6) NOT NULL,
+    longitude DECIMAL(9,6) NOT NULL
+);
 
-/*-- Tabela Filha: Registros de Captura (Depende de Peixes e Pontos)*/
-/*-- O MySQL cria os índices para as FKs automaticamente aqui.*/
+-- 3. Tabela Relacional de Capturas e Variáveis Ambientais
 CREATE TABLE registros_captura (
     id INT AUTO_INCREMENT PRIMARY KEY,
     peixe_id INT,
     ponto_id INT,
-    peso_gramas DECIMAL(6,2),
-    comprimento_cm DECIMAL(4,1),
-    temperatura_agua DECIMAL(3,1),
-    data_coleta DATE,
-    CONSTRAINT fk_registros_peixes 
-        FOREIGN KEY (peixe_id) REFERENCES peixes(id) 
-        ON DELETE RESTRICT,
-    CONSTRAINT fk_registros_pontos 
-        FOREIGN KEY (ponto_id) REFERENCES pontos_amostragem(id) 
-        ON DELETE RESTRICT
-) ENGINE=InnoDB;
+    data_coleta DATE NOT NULL,
+    temperatura_agua DECIMAL(4,2), -- Crucial para checar aquecimento global
+    ph_agua DECIMAL(3,1),
+    oxigenio_dissolvido DECIMAL(4,2),
+    FOREIGN KEY (peixe_id) REFERENCES peixes(id) ON DELETE CASCADE,
+    FOREIGN KEY (ponto_id) REFERENCES pontos_amostragem(id) ON DELETE CASCADE
+);
 
+-- INSERÇÃO DE DADOS PARA TESTE (População do banco)
+INSERT INTO peixes (nome_cientifico, nome_popular, status_extincao) VALUES
+('Astyanax bimaculatus', 'Lambari-do-rabo-amarelo', 'Pouco Preocupante'),
+('Glandulocauda melanogenys', 'Cambeva', 'Vulnerável'),
+('Phalloptychus januarius', 'Barrigudinho', 'Pouco Preocupante');
 
--- =====================================================================
--- 3. INSERÇÃO DE DADOS DE TESTE (População do Banco)
--- =====================================================================
+INSERT INTO pontos_amostragem (localidade, bacia_hidrografica, latitude, longitude) VALUES
+('Rio Paraíba do Sul - Trecho Guaratinguetá', 'Bacia do Paraíba do Sul', -22.8139, -45.1925),
+('Ribeirão Grande - Pindamonhangaba', 'Bacia do Paraíba do Sul', -22.9254, -45.4611);
 
--- Inserindo Peixes
-INSERT INTO peixes (nome_popular, nome_cientifico, status_extincao) VALUES 
-('Cascudo', 'Hypostomus punctatus', 'Preocupação menor'),
-('Cambeva', 'Trichomycterus iheringi', 'Vulnerável'),
-('Lambari', 'Astyanax bimaculatus', 'Preocupação menor');
-
--- Inserindo Pontos de Amostragem
-INSERT INTO pontos_amostragem (localidade, latitude, longitude) VALUES 
-('Ribeirão Grande - Montante', -22.854100, -45.223400),
-('Córrego do Cedro - Jusante', -22.861200, -45.210500);
-
--- Inserindo Registros de Captura
-INSERT INTO registros_captura (peixe_id, ponto_id, peso_gramas, comprimento_cm, temperatura_agua, data_coleta) VALUES 
-(1, 1, 150.50, 18.2, 21.5, '2026-05-20'),
-(2, 1, 45.20, 8.5, 19.2, '2026-05-21'),
-(3, 2, 25.00, 6.1, 22.0, '2026-05-21');
+INSERT INTO registros_captura (peixe_id, ponto_id, data_coleta, temperatura_agua, ph_agua, oxigenio_dissolvido) VALUES
+(1, 1, '2026-05-15', 24.5, 6.8, 5.2),
+(2, 2, '2026-05-16', 19.2, 6.5, 7.1), -- Água mais fria de altitude
+(3, 1, '2026-05-17', 26.1, 7.2, 4.8); -- Temperatura elevada registrada
 
 
 -- =====================================================================
